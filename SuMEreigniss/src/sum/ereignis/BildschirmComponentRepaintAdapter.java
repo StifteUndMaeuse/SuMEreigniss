@@ -3,11 +3,12 @@ package sum.ereignis;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-class Bildschirm$ComponentRepaintAdapter implements ComponentListener {
+class BildschirmComponentRepaintAdapter implements ComponentListener {
 
     private Bildschirm zBildschirm;
 
-    private Bildschirm$ComponentRepaintAdapter(Bildschirm paramBildschirm) {
+    public BildschirmComponentRepaintAdapter(Bildschirm paramBildschirm) {
+        this.zBildschirm = paramBildschirm;
         paramBildschirm.repaint();
     }
 

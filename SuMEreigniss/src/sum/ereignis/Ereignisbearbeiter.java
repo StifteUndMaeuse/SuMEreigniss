@@ -45,8 +45,3 @@ public abstract class Ereignisbearbeiter
   {
   }
 }
-
-/* Location:           C:\Users\Programmieren\Java Recources\sumlibs\SuMEreignis.jar
- * Qualified Name:     sum.ereignis.Ereignisbearbeiter
- * JD-Core Version:    0.6.0
- */

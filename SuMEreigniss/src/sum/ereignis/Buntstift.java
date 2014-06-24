@@ -3,11 +3,10 @@
  import java.awt.BasicStroke;
  import java.awt.Color;
  import java.awt.Font;
- import java.awt.FontMetrics;
  import java.awt.Graphics2D;
- import java.awt.geom.Ellipse2D.Double;
- import java.awt.geom.Line2D.Double;
- import java.awt.geom.Rectangle2D.Double;
+ import java.awt.geom.Ellipse2D;
+ import java.awt.geom.Line2D;
+ import java.awt.geom.Rectangle2D;
  
  public class Buntstift extends Stift
  {
@@ -145,6 +144,7 @@
      this.zMuster = pMuster;
    }
  
+   @Override
    public void zeichneRechteck(double pBreite, double pHoehe)
    {
      Graphics2D g = get2DGraphics(this.kenntPrivatschirm.g());
@@ -152,15 +152,21 @@
      {
        setzeZustand(g);
        if (this.zMuster == 0) {
-         g.draw(new Rectangle2D.Double(this.zStiftH, this.zStiftV, pBreite, pHoehe));
+         g.drawRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
+           
+            
        }
        else
        {
-         g.fill(new Rectangle2D.Double(this.zStiftH, this.zStiftV, pBreite, pHoehe));
+           g.fillRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
+         //g.fill(new Rectangle2D.Double(this.zStiftH, this.zStiftV, pBreite, pHoehe));
+          
+         
        }
      }
    }
  
+   @Override
    public void zeichneKreis(double pRadius)
    {
      Graphics2D g = get2DGraphics(this.kenntPrivatschirm.g());
@@ -175,6 +181,7 @@
      }
    }
  
+   @Override
    protected void zeichneLinie(double x1, double y1, double x2, double y2)
    {
      Graphics2D g = get2DGraphics(this.kenntPrivatschirm.g());
@@ -235,6 +242,7 @@
      return zahlbreite(pZahl);
    }
  
+   @Override
    protected void setzeZustand(Graphics2D g)
    {
      if ((this.zMuster == 2) && (this.zFarbe.getTransparency() != 3))

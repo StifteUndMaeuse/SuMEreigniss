@@ -46,6 +46,7 @@
      this.hatEreignisbearbeiterListe.addElement(pEreignisbearbeiter);
    }
  
+   @Override
    public void bearbeiteTaste(char pZeichen)
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -57,6 +58,7 @@
        }
    }
  
+   @Override
    public void bearbeiteMausDruck(int pWoH, int pWoV)
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -68,6 +70,7 @@
        }
    }
  
+   @Override
    public void bearbeiteMausLos(int pWoH, int pWoV)
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -79,6 +82,7 @@
        }
    }
  
+   @Override
    public void bearbeiteMausBewegt(int pWohinH, int pWohinV)
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -90,6 +94,7 @@
        }
    }
  
+   @Override
    public void bearbeiteDoppelKlick(int pWoH, int pWoV)
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -101,6 +106,7 @@
        }
    }
  
+   @Override
    public void bearbeiteLeerlauf()
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -112,6 +118,7 @@
        }
    }
  
+   @Override
    public void bearbeiteUpdate()
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -123,6 +130,7 @@
        }
    }
  
+   @Override
    public void bearbeiteFokusErhalten()
    {
      if (this.hatEreignisbearbeiterListe != null)
@@ -134,6 +142,7 @@
        }
    }
  
+   @Override
    public void bearbeiteFokusVerloren()
    {
      if (this.hatEreignisbearbeiterListe != null)

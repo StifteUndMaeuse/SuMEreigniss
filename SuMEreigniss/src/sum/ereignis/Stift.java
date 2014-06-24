@@ -2,12 +2,11 @@
  
  import java.awt.BasicStroke;
  import java.awt.Color;
- import java.awt.FontMetrics;
  import java.awt.Graphics;
  import java.awt.Graphics2D;
- import java.awt.geom.Ellipse2D.Double;
- import java.awt.geom.Line2D.Double;
- import java.awt.geom.Rectangle2D.Double;
+ import java.awt.geom.Ellipse2D;
+ import java.awt.geom.Line2D;
+ import java.awt.geom.Rectangle2D;
  
  public class Stift
  {
@@ -192,7 +191,9 @@
      if (g != null)
      {
        setzeZustand(g);
-       g.draw(new Rectangle2D.Double(this.zStiftH, this.zStiftV, pBreite, pHoehe));
+       g.drawRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
+       System.out.println("rect");
+       //g.draw(new Rectangle2D.Double(this.zStiftH, this.zStiftV, pBreite, pHoehe));
      }
    }
  

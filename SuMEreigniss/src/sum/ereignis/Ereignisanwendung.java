@@ -2,7 +2,10 @@
  
  import java.io.PrintStream;
  import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
  import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
  
  public class Ereignisanwendung
    implements Runnable, Serializable
@@ -19,7 +22,7 @@
      {
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
      }
-     catch (Exception e)
+     catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
      {
        System.out.println(e.toString());
      }
@@ -33,7 +36,7 @@
      {
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
      }
-     catch (Exception e)
+     catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
      {
        System.out.println(e.toString());
      }
@@ -47,7 +50,7 @@
      {
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
      }
-     catch (Exception e)
+     catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
      {
        System.out.println(e.toString());
      }
@@ -61,7 +64,7 @@
      {
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
      }
-     catch (Exception e)
+     catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
      {
        System.out.println(e.toString());
      }
@@ -75,7 +78,7 @@
      {
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
      }
-     catch (Exception e)
+     catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
      {
        System.out.println(e.toString());
      }
@@ -89,7 +92,7 @@
      {
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
      }
-     catch (Exception e)
+     catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
      {
        System.out.println(e.toString());
      }
@@ -120,6 +123,7 @@
    protected void halteAn()
    {
      this.zFuehrtAus = false;
+     
    }
  
    public void beenden()
@@ -151,8 +155,11 @@
  
    protected void warte(long pMillisekunden)
    {
-     long start = System.currentTimeMillis();
-     while (System.currentTimeMillis() - start < pMillisekunden);
+       try {
+           Thread.sleep(pMillisekunden);
+       } catch (InterruptedException ex) {
+           Logger.getLogger(Ereignisanwendung.class.getName()).log(Level.SEVERE, null, ex);
+       }
    }
  
    public void bearbeiteTaste(char pZeichen)
@@ -207,7 +214,3 @@
    }
  }
 
-/* Location:           C:\Users\Programmieren\Java Recources\sumlibs\SuMEreignis.jar
- * Qualified Name:     sum.ereignis.Ereignisanwendung
- * JD-Core Version:    0.6.0
- */
