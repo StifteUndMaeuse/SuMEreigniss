@@ -39,7 +39,7 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
     private boolean zHatFocus = true;
     private boolean zHatGezeichnet = false;
     private boolean zMitDoubleBuffering;
-
+    Graphics2D g2d;
 
     public Bildschirm() {
         this(0, 0, -1, -1, "SuM-Fenster " + (zFensternummer + 1), false);
@@ -70,6 +70,8 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
         if (hatPrivatschirm == null) {
             hatPrivatschirm = this;
         }
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
         this.zMitDoubleBuffering = pMitDoubleBuffering;
         this.kenntEreignisanwendung = Ereignisanwendung.hatSuMPrivateAnwendung;
         String osName = System.getProperty("os.name");
@@ -114,7 +116,7 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
     }
 
     protected void init2DGraphics() {
-        Graphics2D g2d;
+
         if (this.zMitDoubleBuffering) {
             g2d = this.dbGraphics;
         } else {
@@ -129,6 +131,7 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
         g2d.setComposite(AlphaComposite.getInstance(3, 1.0F));
+        this.hatPanel.paint(g2d);
     }
 
     public JPanel privatPanel() {
@@ -150,25 +153,25 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
         }
         return this.hatPanel.getGraphics();
     }
+    /*
+     @Override
+     public void paint(Graphics g) {
+     System.out.println("paint");
+     super.paint(g2d);
+        
+     hatPanel.paint(g2d);
+     if (this.dbImage != null) {
+     g2d.drawImage(this.dbImage, 0, 0, this);
+     } else {
+     super.paint(g2d);
+     }
+
+     }
+     */
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        hatPanel.paint(g);
-        if (this.dbImage != null) {
-            g.drawImage(this.dbImage, 0, 0, this);
-        } else {
-            super.paint(g);
-        }
-        for (int i = 0; i < this.hatPanel.getComponentCount(); i++) {
-            Component komponente = this.hatPanel.getComponent(i);
-            komponente.repaint();
-        }
-       
-    }
-  
-    @Override
     public void update(Graphics g) {
+
         super.update(g);
         if (this.zHatGezeichnet) {
             this.kenntEreignisanwendung.bearbeiteUpdate();
@@ -210,7 +213,7 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
         for (int i = 0; i < this.hatPanel.getComponentCount(); i++) {
             Component komponente = this.hatPanel.getComponent(i);
             komponente.setBackground(pFarbe);
-           // komponente.repaint();
+            // komponente.repaint();
         }
     }
 
@@ -358,31 +361,32 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
         }
 
     }
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            if ((Bildschirm.this.kenntEreignisanwendung != null) && (Bildschirm.this.kenntEreignisanwendung.fuehrtAus())) {
-                Bildschirm.this.kenntEreignisanwendung.bearbeiteMausBewegt(e.getX(), e.getY());
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if ((Bildschirm.this.kenntEreignisanwendung != null) && (Bildschirm.this.kenntEreignisanwendung.fuehrtAus())) {
+            Bildschirm.this.kenntEreignisanwendung.bearbeiteMausBewegt(e.getX(), e.getY());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if ((Bildschirm.this.kenntEreignisanwendung != null) && (Bildschirm.this.kenntEreignisanwendung.fuehrtAus())) {
+            Bildschirm.this.kenntEreignisanwendung.bearbeiteMausDruck(e.getX(), e.getY());
+            Bildschirm.this.hatPanel.requestFocus();
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if ((Bildschirm.this.kenntEreignisanwendung != null) && (Bildschirm.this.kenntEreignisanwendung.fuehrtAus())) {
+            if (e.getClickCount() > 1) {
+                Bildschirm.this.kenntEreignisanwendung.bearbeiteDoppelKlick(e.getX(), e.getY());
+            } else {
+                Bildschirm.this.kenntEreignisanwendung.bearbeiteMausLos(e.getX(), e.getY());
             }
         }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if ((Bildschirm.this.kenntEreignisanwendung != null) && (Bildschirm.this.kenntEreignisanwendung.fuehrtAus())) {
-                Bildschirm.this.kenntEreignisanwendung.bearbeiteMausDruck(e.getX(), e.getY());
-                Bildschirm.this.hatPanel.requestFocus();
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            if ((Bildschirm.this.kenntEreignisanwendung != null) && (Bildschirm.this.kenntEreignisanwendung.fuehrtAus())) {
-                if (e.getClickCount() > 1) {
-                    Bildschirm.this.kenntEreignisanwendung.bearbeiteDoppelKlick(e.getX(), e.getY());
-                } else {
-                    Bildschirm.this.kenntEreignisanwendung.bearbeiteMausLos(e.getX(), e.getY());
-                }
-            }
-        
     }
 
     @Override
@@ -401,22 +405,20 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
 
     @Override
     public void componentResized(ComponentEvent e) {
-        Bildschirm.this.fenstergroesseAnpassen();
-        e.getComponent().repaint();
-        System.out.println("repaint");
-      
-     
-      
+        // Bildschirm.this.fenstergroesseAnpassen();
+        //System.out.println("res");
+
     }
 
     @Override
     public void componentMoved(ComponentEvent e) {
-        //e.getComponent().repaint();
+
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
         Bildschirm.this.fensterZerstoeren();
+        
     }
 
     @Override
@@ -425,8 +427,9 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
 
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -434,7 +437,6 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
     @Override
     public void keyReleased(KeyEvent e) {
     }
-
 
     @Override
     public void componentShown(ComponentEvent e) {
@@ -473,9 +475,7 @@ public class Bildschirm extends JFrame implements FocusListener, KeyListener, Mo
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-       
+
     }
 
-
 }
-

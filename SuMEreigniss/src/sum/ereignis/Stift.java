@@ -187,7 +187,7 @@
  
    public void zeichneRechteck(double pBreite, double pHoehe)
    {
-     Graphics2D g = get2DGraphics(this.kenntPrivatschirm.g());
+     Graphics2D g = this.kenntPrivatschirm.g2d;
      if (g != null)
      {
        setzeZustand(g);

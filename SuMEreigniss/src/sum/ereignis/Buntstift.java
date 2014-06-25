@@ -147,18 +147,18 @@
    @Override
    public void zeichneRechteck(double pBreite, double pHoehe)
    {
-     Graphics2D g = get2DGraphics(this.kenntPrivatschirm.g());
-     if (g != null)
+     
+     if (this.kenntPrivatschirm.g2d != null)
      {
-       setzeZustand(g);
+       setzeZustand(this.kenntPrivatschirm.g2d);
        if (this.zMuster == 0) {
-         g.drawRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
+         this.kenntPrivatschirm.g2d.drawRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
            
             
        }
        else
        {
-           g.fillRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
+           this.kenntPrivatschirm.g2d.fillRect((int)this.zStiftH, (int)this.zStiftV, (int)pBreite, (int)pHoehe);
          //g.fill(new Rectangle2D.Double(this.zStiftH, this.zStiftV, pBreite, pHoehe));
           
          
